@@ -2,9 +2,10 @@ package main
 
 import (
 	"log"
-	"github.com/jt-nti/fabric-chaincode-wasmrt/wasmruntime"
+	"os"
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
+	"github.com/jt-nti/fabric-chaincode-wasmrt/wasmruntime"
 )
 
 type ServerConfig struct {
