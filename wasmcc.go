@@ -7,6 +7,12 @@ import (
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 )
 
+type ServerConfig struct {
+	CCID     string
+	Address  string
+	WasmCC   string
+}
+
 func check(e error) {
 	if e != nil {
 		panic(e)
@@ -16,10 +22,28 @@ func check(e error) {
 func main() {
 	log.Printf("[host] Wasm Contract runtime..")
 
-	// TODO pass the Wasm chaincode in with an env var?
-	wrt := wasmruntime.NewRuntime("/chaincode/input/src/wasmruntime/fabric_contract.wasm")
+	// See chaincode.env.example
+	config := ServerConfig{
+		CCID:    os.Getenv("CHAINCODE_ID"),
+		Address: os.Getenv("CHAINCODE_SERVER_ADDRESS"),
+		WasmCC:  os.Getenv("CHAINCODE_WASM_FILE"),
+	}
 
-	err := shim.Start(wrt)
+	wrt := wasmruntime.NewRuntime(config.WasmCC)
+
+	// err := shim.Start(wrt)
+	// check(err)
+
+	server := &shim.ChaincodeServer{
+					CCID: config.CCID,
+					Address: config.Address,
+					CC: wrt,
+					TLSProps: shim.TLSProperties{
+							Disabled: true,
+					},
+			}
+
+	err := server.Start()
 	check(err)
 
 	return
