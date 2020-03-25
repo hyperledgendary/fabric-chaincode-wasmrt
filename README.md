@@ -9,5 +9,5 @@ docker build -t wasm-chaincode .
 Edit the chaincode.env file before starting a Wasm chaincode container using the following command:
 
 ```
-docker run -it --rm --name wasmcc.example.com --hostname wasmcc.example.com --env-file chaincode.env --network=net_test wasm-chaincode
+docker run -it --rm -v ${PWD}:/local:ro --entrypoint=/go/bin/fabric-chaincode-wasmrt --name wasmcc.example.com --hostname wasmcc.example.com --env-file chaincode.env --network=net_test wasm-chaincode
 ```
