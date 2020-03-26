@@ -1,4 +1,4 @@
-module github.com/jt-nti/fabric-chaincode-wasmrt
+module github.com/hyperledgendary/fabric-chaincode-wasmrt
 
 go 1.14
 
